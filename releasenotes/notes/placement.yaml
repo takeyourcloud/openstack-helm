@@ -9,3 +9,12 @@ placement:
   - 0.1.6 Revert - Change Issuer to ClusterIssuer
   - 0.1.7 Change Issuer to ClusterIssuer
   - 0.2.0 Remove support for releases before T
+  - 0.2.1 Add Ussuri release support
+  - 0.2.2 Add Victoria and Wallaby releases support
+  - 0.2.3 Added helm.sh/hook annotations for Jobs
+  - 0.2.4 Helm 3 - Fix Job Labels
+  - 0.2.5 Update htk requirements repo
+  - 0.2.6 Enable taint toleration for Openstack services
+  - 0.2.7 Add helm hook annotations for db-sync job
+  - 0.2.8 Migrated PodDisruptionBudget resource to policy/v1 API version
+...

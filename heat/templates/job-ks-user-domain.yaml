@@ -22,7 +22,13 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: heat-domain-ks-user
+  labels:
+{{ tuple $envAll "heat" "ks-user-domain" | include "helm-toolkit.snippets.kubernetes_metadata_labels" | indent 4 }}
   annotations:
+{{- if .Values.helm3_hook }}
+    "helm.sh/hook": post-install,post-upgrade
+    "helm.sh/hook-delete-policy": before-hook-creation
+{{- end }}
     {{ tuple $envAll | include "helm-toolkit.snippets.release_uuid" }}
 spec:
   template:
@@ -40,6 +46,9 @@ spec:
       restartPolicy: OnFailure
       nodeSelector:
         {{ .Values.labels.job.node_selector_key }}: {{ .Values.labels.job.node_selector_value }}
+{{ if $envAll.Values.pod.tolerations.heat.enabled }}
+{{ tuple $envAll "heat" | include "helm-toolkit.snippets.kubernetes_tolerations" | indent 6 }}
+{{ end }}
       initContainers:
 {{ tuple $envAll "ks_user" list | include "helm-toolkit.snippets.kubernetes_entrypoint_init_container" | indent 8 }}
       containers:

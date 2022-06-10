@@ -54,6 +54,8 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: keystone-fernet-setup
+  labels:
+{{ tuple $envAll "keystone" "fernet-setup" | include "helm-toolkit.snippets.kubernetes_metadata_labels" | indent 4 }}
 {{- if .Values.helm3_hook }}
   annotations:
     "helm.sh/hook": post-install,post-upgrade
@@ -76,6 +78,9 @@ spec:
       initContainers:
 {{ tuple $envAll "fernet_setup" $mounts_keystone_fernet_setup_init | include "helm-toolkit.snippets.kubernetes_entrypoint_init_container" | indent 8 }}
       restartPolicy: OnFailure
+{{ if $envAll.Values.pod.tolerations.keystone.enabled }}
+{{ tuple $envAll "keystone" | include "helm-toolkit.snippets.kubernetes_tolerations" | indent 6 }}
+{{ end }}
       nodeSelector:
         {{ .Values.labels.job.node_selector_key }}: {{ .Values.labels.job.node_selector_value }}
       containers:

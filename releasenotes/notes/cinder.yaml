@@ -20,3 +20,22 @@ cinder:
   - 0.2.1 Fix the ceph pool creations for openstack services
   - 0.2.2 Adding rabbitmq TLS logic
   - 0.2.3 Mount rabbitmq TLS secret
+  - 0.2.4 Add Ussuri release support
+  - 0.2.5 Add volume QoS support
+  - 0.2.6 Added helm.sh/hook with value of post-install and post-upgrade
+  - 0.2.7 Add Victoria and Wallaby releases support
+  - 0.2.8 Add logic to bootstrap to handle upgrade timing issue
+  - 0.2.9 Mount rabbitmq TLS secret for audit usage cronjob
+  - 0.2.10 Helm 3 - Fix Job Labels
+  - 0.2.11 Update htk requirements repo
+  - 0.2.12 Remove cinder v1/v2 defaults
+  - 0.2.13 Upgrade default images to ussuri
+  - 0.2.14 Fix notifications
+  - 0.2.15 Remove glance registry
+  - 0.2.16 Enable taint toleration for Openstack services
+  - 0.2.17 Remove unsupported values overrides
+  - 0.2.18 Add helm hook in bootstrap job
+  - 0.2.19 Add volume types visibility (public/private)
+  - 0.2.20 Allow cinder v1/v2 endpoint creation if needed
+  - 0.2.21 Migrated CronJob resource to batch/v1 API version & PodDisruptionBudget to policy/v1
+...

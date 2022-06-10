@@ -7,3 +7,14 @@ barbican:
   - 0.2.1 Use policies in yaml format
   - 0.2.2 Add helm hook conditional
   - 0.2.3 Add support for master kek rotation
+  - 0.2.4 Add Ussuri release support
+  - 0.2.5 Add Victoria and Wallaby releases support
+  - 0.2.6 Allow Barbican to talk to Mariadb over TLS
+  - 0.2.7 Fix db connection key name
+  - 0.2.8 Update htk requirements repo
+  - 0.2.9 Removed default policy in favor in code policy
+  - 0.2.10 Enable taint toleration for Openstack services
+  - 0.2.11 Fix job annotations for db init job
+  - 0.2.12 Remove older values overrides
+  - 0.2.13 Migrated PodDisruptionBudget resource to policy/v1 API version
+...

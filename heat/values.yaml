@@ -1082,6 +1082,13 @@ pod:
         default: kubernetes.io/hostname
       weight:
         default: 10
+  tolerations:
+    heat:
+      enabled: false
+      tolerations:
+      - key: node-role.kubernetes.io/master
+        operator: Exists
+        effect: NoSchedule
   mounts:
     heat_api:
       init_container: null
@@ -1290,6 +1297,10 @@ network_policy:
       - {}
     egress:
       - {}
+
+# NOTE(helm_hook): helm_hook might break for helm2 binary.
+# set helm3_hook: false when using the helm2 binary.
+helm3_hook: true
 
 manifests:
   certificates: false

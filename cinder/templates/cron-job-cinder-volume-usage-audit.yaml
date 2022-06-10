@@ -21,10 +21,12 @@ limitations under the License.
 {{- $serviceAccountName := "cinder-volume-usage-audit" }}
 {{ tuple $envAll "volume_usage_audit" $serviceAccountName | include "helm-toolkit.snippets.kubernetes_pod_rbac_serviceaccount" }}
 ---
-apiVersion: batch/v1beta1
+apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: cinder-volume-usage-audit
+  labels:
+{{ tuple $envAll "cinder" "volume-usage-audit" | include "helm-toolkit.snippets.kubernetes_metadata_labels" | indent 4 }}
   annotations:
     {{ tuple $envAll | include "helm-toolkit.snippets.release_uuid" }}
 spec:
@@ -50,6 +52,9 @@ spec:
 {{ dict "envAll" $envAll "application" "volume_usage_audit" | include "helm-toolkit.snippets.kubernetes_pod_security_context" | indent 10 }}
           serviceAccountName: {{ $serviceAccountName }}
           restartPolicy: OnFailure
+{{ if $envAll.Values.pod.tolerations.cinder.enabled }}
+{{ tuple $envAll "cinder" | include "helm-toolkit.snippets.kubernetes_tolerations" | indent 10 }}
+{{ end }}
           nodeSelector:
             {{ .Values.labels.job.node_selector_key }}: {{ .Values.labels.job.node_selector_value }}
           initContainers:
@@ -81,6 +86,7 @@ spec:
                   subPath: volume-usage-audit.sh
                   readOnly: true
 {{- dict "enabled" $envAll.Values.manifests.certificates "name" $envAll.Values.endpoints.oslo_db.auth.admin.secret.tls.internal "path" "/etc/mysql/certs" | include "helm-toolkit.snippets.tls_volume_mount" | indent 16 }}
+{{- dict "enabled" $envAll.Values.manifests.certificates "name" $envAll.Values.endpoints.oslo_messaging.auth.admin.secret.tls.internal "path" "/etc/rabbitmq/certs" | include "helm-toolkit.snippets.tls_volume_mount" | indent 16 }}
 {{ if $mounts_cinder_volume_usage_audit.volumeMounts }}{{ toYaml $mounts_cinder_volume_usage_audit.volumeMounts | indent 16 }}{{ end }}
           volumes:
             - name: pod-tmp
@@ -96,5 +102,6 @@ spec:
                 name: cinder-bin
                 defaultMode: 0555
 {{- dict "enabled" $envAll.Values.manifests.certificates "name" $envAll.Values.endpoints.oslo_db.auth.admin.secret.tls.internal | include "helm-toolkit.snippets.tls_volume" | indent 12 }}
+{{- dict "enabled" $envAll.Values.manifests.certificates "name" $envAll.Values.endpoints.oslo_messaging.auth.admin.secret.tls.internal | include "helm-toolkit.snippets.tls_volume" | indent 12 }}
 {{ if $mounts_cinder_volume_usage_audit.volumes }}{{ toYaml $mounts_cinder_volume_usage_audit.volumes | indent 12 }}{{ end }}
 {{- end }}

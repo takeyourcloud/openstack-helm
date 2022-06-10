@@ -28,8 +28,7 @@ tee /tmp/glance.yaml <<EOF
 storage: ${GLANCE_BACKEND}
 pod:
   replicas:
-    api: 2
-    registry: 2
+    api: 1
 EOF
 
 helm upgrade --install glance ./glance \
@@ -42,7 +41,6 @@ helm upgrade --install glance ./glance \
 ./tools/deployment/common/wait-for-pods.sh openstack
 
 #NOTE: Validate Deployment info
-helm status glance
 export OS_CLOUD=openstack_helm
 openstack service list
 sleep 30 #NOTE(portdirect): Wait for ingress controller to update rules and restart Nginx

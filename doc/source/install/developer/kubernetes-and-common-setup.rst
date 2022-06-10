@@ -5,11 +5,11 @@ Kubernetes and Common Setup
 Install Basic Utilities
 ^^^^^^^^^^^^^^^^^^^^^^^
 
-To get started with OSH, we will need both ``git`` and ``curl``.
+To get started with OSH, we will need  ``git``,  ``curl`` and ``make``.
 
 .. code-block:: shell
 
-  sudo apt install git curl
+  sudo apt install git curl make
 
 Clone the OpenStack-Helm Repos
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -82,8 +82,8 @@ Alternatively, this step can be performed by running the script directly:
 
   ./tools/deployment/developer/common/010-deploy-k8s.sh
 
-This command will deploy a single node KubeADM administered cluster. This will
-use the parameters in ``${OSH_INFRA_PATH}/playbooks/vars.yaml`` to control the
+This command will deploy a single node minikube cluster. This will use the
+parameters in ``${OSH_INFRA_PATH}/playbooks/vars.yaml`` to control the
 deployment, which can be over-ridden by adding entries to
 ``${OSH_INFRA_PATH}/tools/gate/devel/local-vars.yaml``.
 

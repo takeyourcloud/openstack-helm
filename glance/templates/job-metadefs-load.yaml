@@ -22,7 +22,12 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: glance-metadefs-load
+  labels:
+{{ tuple $envAll "glance" "metadefs-load" | include "helm-toolkit.snippets.kubernetes_metadata_labels" | indent 4 }}
   annotations:
+{{- if .Values.helm3_hook }}
+    helm.sh/hook: post-install,post-upgrade
+{{- end }}
     {{ tuple $envAll | include "helm-toolkit.snippets.release_uuid" }}
 spec:
   template:
@@ -36,6 +41,9 @@ spec:
       serviceAccountName: {{ $serviceAccountName }}
 {{ dict "envAll" $envAll "application" "metadefs_load" | include "helm-toolkit.snippets.kubernetes_pod_security_context" | indent 6 }}
       restartPolicy: OnFailure
+{{ if $envAll.Values.pod.tolerations.glance.enabled }}
+{{ tuple $envAll "glance" | include "helm-toolkit.snippets.kubernetes_tolerations" | indent 6 }}
+{{ end }}
       nodeSelector:
         {{ .Values.labels.job.node_selector_key }}: {{ .Values.labels.job.node_selector_value }}
       initContainers:

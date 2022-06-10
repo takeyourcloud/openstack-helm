@@ -555,6 +555,13 @@ pod:
         default: kubernetes.io/hostname
       weight:
         default: 10
+  tolerations:
+    neutron:
+      enabled: false
+      tolerations:
+      - key: node-role.kubernetes.io/master
+        operator: Exists
+        effect: NoSchedule
   mounts:
     neutron_server:
       init_container: null
@@ -1376,6 +1383,7 @@ conf:
     Defaults !requiretty
     Defaults secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin:/var/lib/openstack/bin:/var/lib/kolla/venv/bin"
     neutron ALL = (root) NOPASSWD: /var/lib/kolla/venv/bin/neutron-rootwrap /etc/neutron/rootwrap.conf *, /var/lib/openstack/bin/neutron-rootwrap /etc/neutron/rootwrap.conf *
+    neutron ALL = (root) NOPASSWD: /var/lib/kolla/venv/bin/neutron-rootwrap-daemon /etc/neutron/rootwrap.conf, /var/lib/openstack/bin/neutron-rootwrap-daemon /etc/neutron/rootwrap.conf
   rootwrap: |
     # Configuration for neutron-rootwrap
     # This file should be owned by (and only-writeable by) the root user
@@ -1900,6 +1908,7 @@ conf:
       max_retries: -1
     agent:
       root_helper: sudo /var/lib/openstack/bin/neutron-rootwrap /etc/neutron/rootwrap.conf
+      root_helper_daemon: sudo /var/lib/openstack/bin/neutron-rootwrap-daemon /etc/neutron/rootwrap.conf
     oslo_messaging_notifications:
       driver: messagingv2
     oslo_messaging_rabbit:
@@ -2053,6 +2062,23 @@ conf:
       interface_driver: null
       dnsmasq_config_file: /etc/neutron/dnsmasq.conf
       force_metadata: True
+  dnsmasq: |
+      #no-hosts
+      #port=5353
+      #cache-size=500
+      #no-negcache
+      #dns-forward-max=100
+      #resolve-file=
+      #strict-order
+      #bind-interface
+      #bind-dynamic
+      #domain=
+      #dhcp-range=10.10.10.10,10.10.10.100,24h
+      #dhcp-lease-max=150
+      #dhcp-host=11:22:33:44:55:66,ignore
+      #dhcp-option=3,10.10.10.1
+      #dhcp-option-force=26,1450
+
   l3_agent:
     DEFAULT:
       # (NOTE)portdirect: if unset this is populated dyanmicly from the value in
@@ -2494,6 +2520,12 @@ network_policy:
       - {}
     egress:
       - {}
+
+helm3_hook: true
+
+health_probe:
+  logging:
+    level: ERROR
 
 manifests:
   certificates: false

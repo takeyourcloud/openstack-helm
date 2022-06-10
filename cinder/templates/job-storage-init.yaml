@@ -52,6 +52,8 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: cinder-storage-init
+  labels:
+{{ tuple $envAll "cinder" "storage-init" | include "helm-toolkit.snippets.kubernetes_metadata_labels" | indent 4 }}
 spec:
   template:
     metadata:
@@ -61,6 +63,9 @@ spec:
       serviceAccountName: {{ $serviceAccountName }}
 {{ dict "envAll" $envAll "application" "cinder" | include "helm-toolkit.snippets.kubernetes_pod_security_context" | indent 6 }}
       restartPolicy: OnFailure
+{{ if $envAll.Values.pod.tolerations.cinder.enabled }}
+{{ tuple $envAll "cinder" | include "helm-toolkit.snippets.kubernetes_tolerations" | indent 6 }}
+{{ end }}
       nodeSelector:
         {{ .Values.labels.job.node_selector_key }}: {{ .Values.labels.job.node_selector_value }}
       initContainers:

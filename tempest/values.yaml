@@ -24,8 +24,8 @@ labels:
 images:
   tags:
     dep_check: quay.io/airshipit/kubernetes-entrypoint:v1.0.0
-    tempest_run_tests: docker.io/openstackhelm/tempest:latest-ubuntu_xenial
-    ks_user: docker.io/openstackhelm/heat:ocata-ubuntu_xenial
+    tempest_run_tests: docker.io/openstackhelm/tempest:latest-ubuntu_focal
+    ks_user: docker.io/openstackhelm/heat:wallaby-ubuntu_focal
     image_repo_sync: docker.io/docker:17.07.0
   pull_policy: "IfNotPresent"
   local_registry:
@@ -92,6 +92,8 @@ dependencies:
       services:
         - endpoint: internal
           service: local_image_registry
+
+helm3_hook: true
 
 conf:
   script: |
@@ -216,26 +218,42 @@ conf:
     enabled: true
   tempest_logging:
     loggers:
-      keys: root, tempest
+      keys:
+        - root
+        - tempest
     handlers:
-      keys: stdout
+      keys:
+        - stdout
+        - "null"
     formatters:
-      keys: tests
+      keys:
+        - tests
+        - default
     logger_root:
       level: DEBUG
-      handlers: 'null'
+      handlers:
+        - 'null'
     logger_tempest:
       level: WARN
       propagate: 0
-      handlers: stdout
+      handlers:
+        - stdout
       qualname: tempest
     handler_stdout:
       class: StreamHandler
       level: WARN
       args: (sys.stdout,)
       formatter: tests
+    handler_null:
+      class: logging.NullHandler
+      formatter: default
+      args: ()
     formatter_tests:
       class: oslo_log.formatters.ContextFormatter
+      datefmt: "%Y-%m-%d %H:%M:%S"
+    formatter_default:
+      format: "%(message)s"
+      datefmt: "%Y-%m-%d %H:%M:%S"
 
 
 pvc:

@@ -22,7 +22,13 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: placement-db-migrate
+  labels:
+{{ tuple $envAll "placement" "db-migrate" | include "helm-toolkit.snippets.kubernetes_metadata_labels" | indent 4 }}
   annotations:
+{{- if .Values.helm3_hook }}
+    helm.sh/hook: post-install,post-upgrade
+    helm.sh/hook-weight: "-4"
+{{- end }}
     {{ tuple $envAll | include "helm-toolkit.snippets.release_uuid" }}
 spec:
   template:
@@ -37,6 +43,9 @@ spec:
       restartPolicy: OnFailure
       nodeSelector:
         {{ .Values.labels.job.node_selector_key }}: {{ .Values.labels.job.node_selector_value }}
+{{ if $envAll.Values.pod.tolerations.placement.enabled }}
+{{ tuple $envAll "placement" | include "helm-toolkit.snippets.kubernetes_tolerations" | indent 6 }}
+{{ end }}
       initContainers:
 {{ tuple $envAll $service list | include "helm-toolkit.snippets.kubernetes_entrypoint_init_container" | indent 8 }}
       containers:

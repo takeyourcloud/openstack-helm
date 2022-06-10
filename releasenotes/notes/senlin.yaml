@@ -4,3 +4,9 @@ senlin:
   - 0.1.1 Change helm-toolkit dependency version to ">= 0.1.0"
   - 0.2.0 Remove support for releases before T
   - 0.2.1 Use policies in yaml format
+  - 0.2.2 Update htk requirements repo
+  - 0.2.3 Add conductor & health manager
+  - 0.2.4 Update default image release
+  - 0.2.5 Migrated CronJob resource to batch/v1 API version & PodDisruptionBudget to policy/v1
+  - 0.2.6 Add helm.sh/hook annotations for Jobs
+...

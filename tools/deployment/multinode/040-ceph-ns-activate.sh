@@ -27,6 +27,7 @@ network:
 deployment:
   ceph: false
   rbd_provisioner: false
+  csi_rbd_provisioner: false
   cephfs_provisioner: false
   client_secrets: true
 bootstrap:
@@ -45,6 +46,3 @@ helm upgrade --install ceph-openstack-config ${OSH_INFRA_PATH}/ceph-provisioners
 
 #NOTE: Wait for deploy
 ./tools/deployment/common/wait-for-pods.sh openstack
-
-#NOTE: Validate Deployment info
-helm status ceph-openstack-config

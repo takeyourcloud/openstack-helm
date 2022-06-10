@@ -74,9 +74,9 @@ Steps:
       images:
         tags:
           ceph_bootstrap: 'docker.io/ceph/daemon:master-0351083-luminous-ubuntu-16.04-x86_64'
-          ceph_config_helper: 'docker.io/openstackhelm/ceph-config-helper:latest-ubuntu_xenial'
-          ceph_rbd_pool: 'docker.io/openstackhelm/ceph-config-helper:latest-ubuntu_xenial'
-          ceph_mon_check: 'docker.io/openstackhelm/ceph-config-helper:latest-ubuntu_xenial'
+          ceph_config_helper: 'docker.io/openstackhelm/ceph-config-helper:latest-ubuntu_focal'
+          ceph_rbd_pool: 'docker.io/openstackhelm/ceph-config-helper:latest-ubuntu_focal'
+          ceph_mon_check: 'docker.io/openstackhelm/ceph-config-helper:latest-ubuntu_focal'
           ceph_mon: 'docker.io/ceph/daemon:master-0351083-luminous-ubuntu-16.04-x86_64'
           ceph_osd: 'docker.io/ceph/daemon:master-0351083-luminous-ubuntu-16.04-x86_64'
           ceph_mds: 'docker.io/ceph/daemon:master-0351083-luminous-ubuntu-16.04-x86_64'
@@ -215,7 +215,7 @@ Steps:
   Containers:
     ceph-mon:
       Container ID:  docker://d5a3396f99704038ab8ef6bfe329013ed46472ebb8e26dddc140b621329f0f92
-      Image:         docker.io/openstackhelm/ceph-config-helper:latest-ubuntu_xenial
+      Image:         docker.io/openstackhelm/ceph-config-helper:latest-ubuntu_focal
 
 
 6) Install Openstack charts
@@ -270,8 +270,6 @@ Continue with OSH multinode guide to install other Openstack charts.
   cinder-volume-75bf4cc9bd-6298x                 1/1       Running   0          51m
   glance-api-68f6df4d5d-q84hs                    1/1       Running   0          1h
   glance-api-68f6df4d5d-qbfwb                    1/1       Running   0          1h
-  glance-registry-5957979dc5-h54tc               1/1       Running   0          1h
-  glance-registry-5957979dc5-sglg7               1/1       Running   0          1h
   ingress-7b4bc84cdd-84dtj                       1/1       Running   0          2h
   ingress-7b4bc84cdd-ws45r                       1/1       Running   0          2h
   ingress-error-pages-586c7f86d6-dlpm2           1/1       Running   0          2h
@@ -301,11 +299,7 @@ Continue with OSH multinode guide to install other Openstack charts.
   nova-compute-default-mr24c                     1/1       Running   0          16m
   nova-conductor-64457cf995-lbv65                1/1       Running   0          16m
   nova-conductor-64457cf995-zts48                1/1       Running   0          16m
-  nova-consoleauth-c595f68bc-2269j               1/1       Running   0          16m
-  nova-consoleauth-c595f68bc-tbmcn               1/1       Running   0          16m
   nova-novncproxy-54467b9c66-vp49j               1/1       Running   0          16m
-  nova-placement-api-655cd9fcf6-5p5sc            1/1       Running   0          16m
-  nova-placement-api-655cd9fcf6-r46dk            1/1       Running   0          16m
   nova-scheduler-59647c6d9f-vm78p                1/1       Running   0          16m
   openvswitch-db-cv47r                           1/1       Running   0          41m
   openvswitch-db-dq7rc                           1/1       Running   0          41m
@@ -332,9 +326,9 @@ Update, image section in new overrides ``ceph-update.yaml`` as shown below
   images:
     tags:
       ceph_bootstrap: 'docker.io/ceph/daemon:master-0351083-luminous-ubuntu-16.04-x86_64'
-      ceph_config_helper: 'docker.io/openstackhelm/ceph-config-helper:latest-ubuntu_xenial'
-      ceph_rbd_pool: 'docker.io/openstackhelm/ceph-config-helper:latest-ubuntu_xenial'
-      ceph_mon_check: 'docker.io/openstackhelm/ceph-config-helper:latest-ubuntu_xenial'
+      ceph_config_helper: 'docker.io/openstackhelm/ceph-config-helper:latest-ubuntu_focal'
+      ceph_rbd_pool: 'docker.io/openstackhelm/ceph-config-helper:latest-ubuntu_focal'
+      ceph_mon_check: 'docker.io/openstackhelm/ceph-config-helper:latest-ubuntu_focal'
       ceph_mon: 'docker.io/ceph/daemon:master-a8d20ed-luminous-ubuntu-16.04-x86_64'
       ceph_osd: 'docker.io/ceph/daemon:master-a8d20ed-luminous-ubuntu-16.04-x86_64'
       ceph_mds: 'docker.io/ceph/daemon:master-a8d20ed-luminous-ubuntu-16.04-x86_64'
@@ -493,8 +487,6 @@ pods are running. No interruption to OSH pods.
   cinder-volume-75bf4cc9bd-6298x                 1/1       Running   0          1h
   glance-api-68f6df4d5d-q84hs                    1/1       Running   0          2h
   glance-api-68f6df4d5d-qbfwb                    1/1       Running   0          2h
-  glance-registry-5957979dc5-h54tc               1/1       Running   0          2h
-  glance-registry-5957979dc5-sglg7               1/1       Running   0          2h
   ingress-7b4bc84cdd-84dtj                       1/1       Running   0          2h
   ingress-7b4bc84cdd-ws45r                       1/1       Running   0          2h
   ingress-error-pages-586c7f86d6-dlpm2           1/1       Running   0          2h
@@ -524,11 +516,7 @@ pods are running. No interruption to OSH pods.
   nova-compute-default-mr24c                     1/1       Running   0          52m
   nova-conductor-64457cf995-lbv65                1/1       Running   0          52m
   nova-conductor-64457cf995-zts48                1/1       Running   0          52m
-  nova-consoleauth-c595f68bc-2269j               1/1       Running   0          52m
-  nova-consoleauth-c595f68bc-tbmcn               1/1       Running   0          52m
   nova-novncproxy-54467b9c66-vp49j               1/1       Running   0          52m
-  nova-placement-api-655cd9fcf6-5p5sc            1/1       Running   0          52m
-  nova-placement-api-655cd9fcf6-r46dk            1/1       Running   0          52m
   nova-scheduler-59647c6d9f-vm78p                1/1       Running   0          52m
   openvswitch-db-cv47r                           1/1       Running   0          1h
   openvswitch-db-dq7rc                           1/1       Running   0          1h
@@ -586,7 +574,7 @@ pods are running. No interruption to OSH pods.
   Containers:
     ceph-mon:
       Container ID:  docker://d5a3396f99704038ab8ef6bfe329013ed46472ebb8e26dddc140b621329f0f92
-      Image:         docker.io/openstackhelm/ceph-config-helper:latest-ubuntu_xenial
+      Image:         docker.io/openstackhelm/ceph-config-helper:latest-ubuntu_focal
 
 Conclusion:
 ===========
